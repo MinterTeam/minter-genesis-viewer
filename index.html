@@ -21,10 +21,20 @@
     </div>
 </nav>
 <div id="app" class="container">
-    <div v-if="!genesis" class="custom-file">
-        <input type="file" class="custom-file-input" @change="loadTextFromFile" id="genesisFile">
-        <label class="custom-file-label" for="genesisFile">Choose Genesis file</label>
+    <div v-if="!genesis" >
+        <div class="custom-file">
+            <input type="file" class="custom-file-input" @change="loadTextFromFile" id="genesisFile">
+            <label class="custom-file-label" for="genesisFile">Choose Genesis file</label>
+        </div>
+        <div class="text-center" style="padding: 10px 0;">OR</div>
+        <div class="input-group mb-3">
+            <input v-model="genesisUrl" type="text" class="form-control" placeholder="Enter Genesis URL" aria-label="Enter Genesis URL" aria-describedby="button-addon2">
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" @click.prevent="loadFromUrl()" type="button" id="button-addon2">Load</button>
+            </div>
+        </div>
     </div>
+
 
     <div v-if="genesis">
         <h3>General info</h3>
@@ -104,11 +114,13 @@
 </div>
 <script src="https://cdn.jsdelivr.net/npm/vue"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bignumber.js/8.1.1/bignumber.min.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
     new Vue({
         el: '#app',
         data: {
-            genesis: ''
+            genesis: '',
+            genesisUrl: 'https://raw.githubusercontent.com/MinterTeam/minter-go-node/dev/testnet/minter-test-network-38/genesis.json'
         },
         methods: {
             loadTextFromFile(ev) {
@@ -121,6 +133,9 @@
             pipToBip(pip) {
                 let value = new BigNumber(pip);
                 return value.dividedBy(new BigNumber('1e18')).toFixed(18)
+            },
+            loadFromUrl() {
+                axios.get(this.genesisUrl).then(response => this.genesis = response.data).catch(e => alert(e));
             }
         }
     })
