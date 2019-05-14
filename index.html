@@ -52,6 +52,10 @@
                 <th>Start height</th>
                 <td>{{ genesis.app_state.start_height }}</td>
             </tr>
+            <tr>
+                <th>Note</th>
+                <td><div style="white-space: pre-line">{{ genesis.app_state.note }}</div></td>
+            </tr>
             </tbody>
         </table>
 
@@ -120,7 +124,7 @@
         el: '#app',
         data: {
             genesis: '',
-            genesisUrl: 'https://raw.githubusercontent.com/MinterTeam/minter-go-node/dev/testnet/minter-test-network-40/genesis.json'
+            genesisUrl: 'https://raw.githubusercontent.com/MinterTeam/minter-go-node/dev/mainnet/minter-mainnet-1/genesis.json'
         },
         methods: {
             loadTextFromFile(ev) {
